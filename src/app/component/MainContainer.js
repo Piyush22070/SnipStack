@@ -66,7 +66,7 @@ export default function MainContainer() {
       {loading ? (
         <Loading />
       ) : (
-        <div className="max-h-[600px] overflow-y-auto pr-2">
+        <div className="max-h-[500px] overflow-y-auto pr-2">
           <ul className="space-y-4">
             {filteredSnippets.length > 0 ? (
               filteredSnippets.map(snippet => (
