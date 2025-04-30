@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { FaTrash } from 'react-icons/fa';
+import { FaTrash, FaCopy } from 'react-icons/fa'; 
 import Loading from './Loading';
 
 const LANGUAGES = [
@@ -34,6 +34,13 @@ export default function MainContainer() {
       console.error('Error deleting snippet:', error);
       alert('Failed to delete snippet');
     }
+  };
+
+  const handleCopy = (codeSnippet) => {
+    // Copy the code snippet to clipboard
+    navigator.clipboard.writeText(codeSnippet)
+      .then(() => alert('Snippet copied to clipboard!'))
+      .catch((err) => console.error('Error copying text: ', err));
   };
 
   const filteredSnippets = snippets.filter(snippet =>
@@ -73,12 +80,22 @@ export default function MainContainer() {
                 <li key={snippet.id} className="border p-4 rounded shadow relative">
                   <h2 className="text-lg font-semibold">{snippet.snippetName}</h2>
                   <p className="text-sm text-gray-500 mb-2">Language: {snippet.language}</p>
+
                   <pre className="bg-gray-100 p-2 rounded text-sm overflow-auto">
+                      <button
+                        onClick={() => handleCopy(snippet.codeSnippet)}
+                        className="absolute top-20 right-7 p-2 text-black hover:text-blue-600"
+                      >
+                        <FaCopy size={20} />
+                      </button>
                     {snippet.codeSnippet}
                   </pre>
+
                   {snippet.snippetNote && (
                     <p className="text-sm text-gray-600 mt-2">Note: {snippet.snippetNote}</p>
                   )}
+
+                  {/* Delete Button */}
                   <button
                     onClick={() => handleDelete(snippet.id)}
                     className="absolute top-2 right-2 p-4 text-black hover:text-red-700"
